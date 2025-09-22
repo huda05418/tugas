@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistem bilangan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --link:#0645ad;
+      --muted:#6a737d;
+      --border:#dfe2e6;
+      --content-width:980px;
+      --accent:#0b6;
+      --card-bg:#fbfcfd;
+      --shadow:0 6px 18px rgba(16,24,40,0.06);
+    }
+    html,body{height:100%;margin:0;background:#fff;color:#202122;font-family:"Noto Serif", Georgia, "Times New Roman", serif;font-size:16px;line-height:1.65}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .page{display:flex;justify-content:center;padding:24px 12px}
+    .container{width:100%;max-width:var(--content-width);display:flex;gap:24px}
+    .main{flex:1 1 0;min-width:0}
+    header.title{border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:18px}
+    header.title h1{margin:0;font-family:"Noto Serif", Georgia, serif;font-weight:700;font-size:28px;color:#111;line-height:1.1}
+    .meta{color:var(--muted);margin-top:6px;font-size:0.95rem;font-family:"Noto Sans", Arial, sans-serif}
+    .two-col{display:flex;gap:24px;align-items:flex-start}
+    article.content{width:100%;background:transparent}
+    .lead{margin:0 0 1.1em 0;font-size:1.03rem;text-align:justify;font-family:"Noto Serif", Georgia, serif}
+    .visual-row{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0 20px}
+    .card{flex:1 1 280px;background:var(--card-bg);border:1px solid var(--border);padding:14px;border-radius:8px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center}
+    .viz{width:120px;height:88px;flex:0 0 120px;display:flex;align-items:center;justify-content:center}
+    .info{flex:1;font-family:"Noto Sans", Arial, sans-serif}
+    .info h3{margin:0 0 6px;font-size:1.05rem;font-family:"Noto Serif", Georgia, serif}
+    .info p{margin:0;color:var(--muted);font-size:0.95rem}
+    .binary-grid{width:92px;height:64px;display:grid;grid-template-columns:repeat(8,1fr);grid-gap:4px}
+    .bit{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;border-radius:3px}
+    .bit.on{background:linear-gradient(180deg,#0b76ff,#085ec1)}
+    .bit.off{background:linear-gradient(180deg,#e6eefc,#dfeefc);color:#456}
+    .decimal-abacus{width:96px;height:64px;background:linear-gradient(180deg,#fff,#fbfbff);border-radius:6px;padding:8px;box-sizing:border-box;position:relative}
+    .rod{position:absolute;left:12px;right:12px;top:8px;bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .bead{width:10px;height:18px;background:linear-gradient(180deg,#ffb94d,#ff8f00);border-radius:6px;box-shadow:inset 0 -2px 0 rgba(0,0,0,0.06)}
+    .bead.gray{background:linear-gradient(180deg,#e2e6ea,#cfd6dc)}
+    .hexa-swatch{width:100px;height:64px;border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+    .sw-top{flex:1;background:linear-gradient(90deg,#f6f6f7,#e9f1ff);display:flex;align-items:center;justify-content:center;font-family:"Noto Sans",Arial,sans-serif;color:var(--muted);font-size:0.82rem}
+    .sw-bottom{flex:1;background:linear-gradient(90deg,#2a9df4,#2a7be8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:"Noto Sans",Arial,sans-serif}
+    .section h2{font-family:"Noto Serif", Georgia, serif;font-size:20px;margin:18px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    p{margin:0 0 1em;text-align:justify}
+    table.compare{border-collapse:collapse;width:100%;margin:1em 0;font-family:"Noto Sans", Arial, sans-serif;font-size:0.95rem}
+    table.compare th, table.compare td{border:1px solid var(--border);padding:8px 10px;text-align:center}
+    table.compare th{background:#f6f7f8;font-weight:700;color:#111}
+    .toc-box{width:260px;position:sticky;top:24px;align-self:flex-start;font-family:"Noto Sans", Arial, sans-serif;font-size:0.95rem}
+    .toc{border:1px solid var(--border);background:#fafbfc;padding:12px;margin-bottom:18px}
+    .toc b{display:block;margin-bottom:8px}
+    .toc ul{margin:0;padding-left:18px}
+    .toc li{margin:6px 0}
+    .references{margin-top:26px;border-top:1px solid var(--border);padding-top:14px;font-family:"Noto Sans", Arial, sans-serif;font-size:0.95rem}
+    .references ol{margin:8px 0 0 18px;padding:0}
+    .references li{margin:8px 0}
+    @media (max-width:980px){
+      .container{padding:0 10px}
+      .toc-box{display:none}
+      .card{flex-basis:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <main class="main">
+        <header class="title">
+          <h1>Sistem bilangan</h1>
+          <div class="meta">Ringkasan singkat · contoh · referensi</div>
+        </header>
+
+        <div class="two-col">
+          <article class="content" aria-labelledby="article-title">
+            <p class="lead">
+              Sistem bilangan adalah metode untuk merepresentasikan angka menggunakan simbol tertentu. Sistem bilangan penting dalam matematika dan informatika; manusia umumnya memakai sistem <a href="https://id.wikipedia.org/wiki/Sistem_bilangan_desimal" target="_blank">desimal (basis 10)</a>, sedangkan komputer memakai <a href="https://id.wikipedia.org/wiki/Bilangan_biner" target="_blank">biner (basis 2)</a>. Sistem lain seperti oktal dan heksadesimal juga sering digunakan.
+            </p>
+
+            <div class="visual-row" aria-hidden="false">
+              <div class="card" role="img" aria-label="Ilustrasi biner">
+                <div class="viz">
+                  <div class="binary-grid" aria-hidden="true">
+                    <div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div>
+                    <div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div><div class="bit off">0</div><div class="bit on">1</div>
+                  </div>
+                </div>
+                <div class="info">
+                  <h3>Biner</h3>
+                  <p>Basis 2, hanya 0 dan 1. Digunakan komputer untuk merepresentasikan data digital.</p>
+                </div>
+              </div>
+
+              <div class="card" role="img" aria-label="Ilustrasi desimal">
+                <div class="viz">
+                  <div class="decimal-abacus" aria-hidden="true">
+                    <div class="rod">
+                      <div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead gray"></div><div class="bead gray"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info">
+                  <h3>Desimal</h3>
+                  <p>Basis 10, digit 0–9. Sistem yang umum dipakai dalam pengukuran dan perdagangan.</p>
+                </div>
+              </div>
+
+              <div class="card" role="img" aria-label="Ilustrasi heksadesimal">
+                <div class="viz">
+                  <div class="hexa-swatch" aria-hidden="true">
+                    <div class="sw-top">Hexa notation</div>
+                    <div class="sw-bottom">#2A0</div>
+                  </div>
+                </div>
+                <div class="info">
+                  <h3>Heksadesimal</h3>
+                  <p>Basis 16, memakai 0–9 dan A–F. Umum digunakan untuk kode warna dan alamat memori.</p>
+                </div>
+              </div>
+            </div>
+
+            <section class="section" id="desimal">
+              <h2>Sistem desimal</h2>
+              <p>
+                Sistem desimal menggunakan basis 10 dengan digit 0–9. Setiap digit mewakili pangkat 10 sesuai posisinya. Contoh: 325 = 3×10² + 2×10¹ + 5×10⁰.
+              </p>
+            </section>
+
+            <section class="section" id="biner">
+              <h2>Sistem biner</h2>
+              <p>
+                Sistem biner berbasis 2. Contoh: 1011 = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 11 (desimal).
+              </p>
+            </section>
+
+            <section class="section" id="oktal">
+              <h2>Sistem oktal</h2>
+              <p>
+                Sistem oktal berbasis 8 (digit 0–7). Sering digunakan untuk menyederhanakan bilangan biner.
+              </p>
+            </section>
+
+            <section class="section" id="heksa">
+              <h2>Sistem heksadesimal</h2>
+              <p>
+                Heksadesimal berbasis 16, menggunakan 0–9 dan A–F. Contoh: 2A = 2×16¹ + 10×16⁰ = 42 (desimal).
+              </p>
+            </section>
+
+            <section class="section" id="contoh">
+              <h2>Contoh perbandingan</h2>
+              <table class="compare" aria-describedby="contoh">
+                <thead>
+                  <tr><th>Desimal</th><th>Biner</th><th>Oktal</th><th>Heksadesimal</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>10</td><td>1010</td><td>12</td><td>A</td></tr>
+                  <tr><td>15</td><td>1111</td><td>17</td><td>F</td></tr>
+                  <tr><td>255</td><td>11111111</td><td>377</td><td>FF</td></tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section class="section" id="konversi">
+              <h2>Contoh konversi langkah demi langkah (25 → biner)</h2>
+              <p>25 dibagi 2 berulang lalu membaca sisa dari bawah ke atas:</p>
+              <ol>
+                <li>25 ÷ 2 = 12 sisa 1</li>
+                <li>12 ÷ 2 = 6 sisa 0</li>
+                <li>6 ÷ 2 = 3 sisa 0</li>
+                <li>3 ÷ 2 = 1 sisa 1</li>
+                <li>1 ÷ 2 = 0 sisa 1</li>
+              </ol>
+              <p>Hasil sisa dibaca dari akhir ke awal → 11001. Jadi 25 = 11001 (biner).</p>
+            </section>
+
+            <div class="references" id="referensi">
+              <h2>Referensi</h2>
+              <ol>
+                <li><a href="https://id.wikipedia.org/wiki/Sistem_bilangan" target="_blank" rel="noopener">Wikipedia Bahasa Indonesia: Sistem bilangan</a></li>
+                <li><a href="https://www.kompas.com/skola/read/2020/12/04/183000169/mengenal-sistem-bilangan-biner" target="_blank" rel="noopener">Kompas Skola: Mengenal Sistem Bilangan Biner</a></li>
+                <li><a href="https://www.suara.com/news/2023/06/20/110000/mengenal-sistem-bilangan-dalam-komputer" target="_blank" rel="noopener">Suara.com: Mengenal Sistem Bilangan dalam Komputer</a></li>
+              </ol>
+            </div>
+          </article>
+
+          <aside class="toc-box" aria-label="Daftar isi">
+            <nav class="toc">
+              <b>Daftar isi</b>
+              <ul>
+                <li><a href="#desimal">Sistem desimal</a></li>
+                <li><a href="#biner">Sistem biner</a></li>
+                <li><a href="#oktal">Sistem oktal</a></li>
+                <li><a href="#heksa">Sistem heksadesimal</a></li>
+                <li><a href="#contoh">Contoh perbandingan</a></li>
+                <li><a href="#konversi">Contoh konversi</a></li>
+                <li><a href="#referensi">Referensi</a></li>
+              </ul>
+            </nav>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
